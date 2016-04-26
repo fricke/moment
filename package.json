@@ -29,10 +29,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/moment/moment.git"
+        "url": "https://github.com/fricke/moment.git"
     },
     "bugs": {
-        "url": "https://github.com/moment/moment/issues"
+        "url": "https://github.com/fricke/moment/issues"
     },
     "license": "MIT",
     "devDependencies": {
