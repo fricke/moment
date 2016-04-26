@@ -896,10 +896,11 @@
             return units_month__handleStrictParse.call(this, monthName, format, strict);
         }
 
-        if (!this._monthsParse) {
-            this._monthsParse = [];
-            this._longMonthsParse = [];
-            this._shortMonthsParse = [];
+        let proto = Object.getPrototypeOf(this);
+        if (!proto._monthsParse) {
+            proto._monthsParse = [];
+            proto._longMonthsParse = [];
+            proto._shortMonthsParse = [];
         }
 
         // TODO: add sorting
@@ -908,20 +909,20 @@
         for (i = 0; i < 12; i++) {
             // make the regex if we don't have it already
             mom = create_utc__createUTC([2000, i]);
-            if (strict && !this._longMonthsParse[i]) {
-                this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
-                this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
+            if (strict && !proto._longMonthsParse[i]) {
+                proto._longMonthsParse[i] = new RegExp('^' + proto.months(mom, '').replace('.', '') + '$', 'i');
+                proto._shortMonthsParse[i] = new RegExp('^' + proto.monthsShort(mom, '').replace('.', '') + '$', 'i');
             }
-            if (!strict && !this._monthsParse[i]) {
-                regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
-                this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
+            if (!strict && !proto._monthsParse[i]) {
+                regex = '^' + proto.months(mom, '') + '|^' + proto.monthsShort(mom, '');
+                proto._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
             }
             // test the regex
-            if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
+            if (strict && format === 'MMMM' && proto._longMonthsParse[i].test(monthName)) {
                 return i;
-            } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
+            } else if (strict && format === 'MMM' && proto._shortMonthsParse[i].test(monthName)) {
                 return i;
-            } else if (!strict && this._monthsParse[i].test(monthName)) {
+            } else if (!strict && proto._monthsParse[i].test(monthName)) {
                 return i;
             }
         }
@@ -2876,34 +2877,35 @@
             return day_of_week__handleStrictParse.call(this, weekdayName, format, strict);
         }
 
-        if (!this._weekdaysParse) {
-            this._weekdaysParse = [];
-            this._minWeekdaysParse = [];
-            this._shortWeekdaysParse = [];
-            this._fullWeekdaysParse = [];
+        let proto = Object.getPrototypeOf(this);
+        if (!proto._weekdaysParse) {
+            proto._weekdaysParse = [];
+            proto._minWeekdaysParse = [];
+            proto._shortWeekdaysParse = [];
+            proto._fullWeekdaysParse = [];
         }
 
         for (i = 0; i < 7; i++) {
             // make the regex if we don't have it already
 
             mom = create_utc__createUTC([2000, 1]).day(i);
-            if (strict && !this._fullWeekdaysParse[i]) {
-                this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\.?') + '$', 'i');
-                this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\.?') + '$', 'i');
-                this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\.?') + '$', 'i');
+            if (strict && !proto._fullWeekdaysParse[i]) {
+                proto._fullWeekdaysParse[i] = new RegExp('^' + proto.weekdays(mom, '').replace('.', '\.?') + '$', 'i');
+                proto._shortWeekdaysParse[i] = new RegExp('^' + proto.weekdaysShort(mom, '').replace('.', '\.?') + '$', 'i');
+                proto._minWeekdaysParse[i] = new RegExp('^' + proto.weekdaysMin(mom, '').replace('.', '\.?') + '$', 'i');
             }
-            if (!this._weekdaysParse[i]) {
-                regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
-                this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
+            if (!proto._weekdaysParse[i]) {
+                regex = '^' + proto.weekdays(mom, '') + '|^' + proto.weekdaysShort(mom, '') + '|^' + proto.weekdaysMin(mom, '');
+                proto._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
             }
             // test the regex
-            if (strict && format === 'dddd' && this._fullWeekdaysParse[i].test(weekdayName)) {
+            if (strict && format === 'dddd' && proto._fullWeekdaysParse[i].test(weekdayName)) {
                 return i;
-            } else if (strict && format === 'ddd' && this._shortWeekdaysParse[i].test(weekdayName)) {
+            } else if (strict && format === 'ddd' && proto._shortWeekdaysParse[i].test(weekdayName)) {
                 return i;
-            } else if (strict && format === 'dd' && this._minWeekdaysParse[i].test(weekdayName)) {
+            } else if (strict && format === 'dd' && proto._minWeekdaysParse[i].test(weekdayName)) {
                 return i;
-            } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
+            } else if (!strict && proto._weekdaysParse[i].test(weekdayName)) {
                 return i;
             }
         }
